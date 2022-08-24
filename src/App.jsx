@@ -8,8 +8,14 @@ import MainDiv from "./mainDiv";
 function App() {
 	return (
 		<div>
+			{
+				//Setting up the routes for the app
+			}
 			<Router>
 				<Routes>
+					{
+						//Home page is marked with /
+					}
 					<Route path='/' exact element={<MainDiv />} />
 					<Route path='/createTask' element={<CreateTask />} />
 					<Route path='/editTask' element={<EditTask />} />

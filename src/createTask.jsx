@@ -18,6 +18,7 @@ function CreateTask() {
 		priority: "",
 	});
 
+	//Maintaining the state of all errors for the form
 	const [titleError, setTitleError] = useState({
 		error: false,
 		helperText: "",
@@ -35,10 +36,14 @@ function CreateTask() {
 		helperText: "",
 	});
 
+	//The Form
 	return (
 		<div style={{ padding: "2vh 3vw" }}>
 			<p>Create New Task</p>
 			<form>
+				{
+					//Title Field
+				}
 				<TextField
 					required
 					id='standard-required'
@@ -57,6 +62,9 @@ function CreateTask() {
 						width: "60vw",
 						paddingTop: "2vh",
 					}}>
+					{
+						//Description Field
+					}
 					<TextField
 						id='standard'
 						label='Description'
@@ -82,6 +90,9 @@ function CreateTask() {
 						<InputLabel id='demo-simple-select-required-label'>
 							Priority
 						</InputLabel>
+						{
+							//Priority DropDown Field
+						}
 						<Select
 							labelId='demo-simple-select-required-label'
 							id='demo-simple-select-required'
@@ -92,6 +103,9 @@ function CreateTask() {
 							onChange={(event) => {
 								setForm({ ...form, priority: event.target.value });
 							}}>
+							{
+								//All the Drop Down Items
+							}
 							<MenuItem value={"High"}>High</MenuItem>
 							<MenuItem value={"Medium"}>Medium</MenuItem>
 							<MenuItem value={"Low"}>Low</MenuItem>
@@ -105,6 +119,9 @@ function CreateTask() {
 						justifyContent: "space-between",
 						paddingTop: "4vh",
 					}}>
+					{
+						//Start DateTime Field
+					}
 					<TextField
 						id='datetime-local'
 						label='Start DateTime'
@@ -120,6 +137,9 @@ function CreateTask() {
 							setForm({ ...form, startDateTime: event.target.value });
 						}}
 					/>
+					{
+						//End DateTime Field
+					}
 					<TextField
 						id='datetime-local'
 						label='End DateTime'
@@ -141,6 +161,7 @@ function CreateTask() {
 				style={{ marginTop: "4vh" }}
 				variant='contained'
 				onClick={async () => {
+					//Checking if any required field is empty or not
 					if (form.title === "") {
 						setTitleError({ error: true, helperText: "Title is required" });
 					} else {
@@ -170,6 +191,7 @@ function CreateTask() {
 					} else {
 						setEndDateTimeError({ error: false, helperText: "" });
 					}
+					//If everything is valid the only sending the request
 					if (
 						form.title != "" &&
 						form.priority != "" &&
@@ -179,6 +201,7 @@ function CreateTask() {
 						await axios
 							.post(URL + "createTask", { ...form, status: "Incomplete" })
 							.then(async (res) => {
+								//After creating the Task Successfully showing a toast message
 								toast.success("Task Created Successfully", {
 									position: "top-center",
 									autoClose: 2000,
@@ -192,6 +215,7 @@ function CreateTask() {
 							.catch((err) => {
 								console.log(err);
 							});
+						//Setting form to its initial state
 						setForm({
 							title: "",
 							startDateTime: "",
@@ -203,6 +227,9 @@ function CreateTask() {
 				}}>
 				Submit
 			</Button>
+			{
+				//Container for the toast messages
+			}
 			<ToastContainer
 				position='top-center'
 				autoClose={2000}

@@ -85,7 +85,6 @@ function MainDiv() {
 			return data;
 		} else {
 			return data.filter((element) => {
-				// console.log(element.startDateTime.substring(0, 10), dateFilter);
 				return (
 					element.startDateTime.substring(0, 10) == dateFilter ||
 					element.endDateTime.substring(0, 10) == dateFilter
