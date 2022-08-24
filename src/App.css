@@ -1,10 +1,18 @@
 .App {
   text-align: center;
+  align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.buttonRow{
+  display: flex;
+  align-items:center;
+  justify-content: space-evenly;
+}
+
+p {
+  padding: 5px;
+  font-weight: 300;
+  font-size: 20px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -14,14 +22,11 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
+  padding: 25px;
 }
 
 .App-link {
