@@ -18,6 +18,7 @@ import { URL } from "./utils";
 
 function CustomTable(props) {
 	return (
+		//This function contains only the columns
 		<div style={{ padding: "2vw 6vw 4vh 6vw" }}>
 			<p style={{ padding: "1vw" }}>All your tasks.</p>
 			<TableContainer component={Paper}>
@@ -40,6 +41,7 @@ function CustomTable(props) {
 					</TableHead>
 					<TableBody>
 						{props.data.map((row) => (
+							//Rows are generated automatically from the array using the map function
 							<CustomtableRow row={row} deleteRecord={props.deleteRecord} />
 						))}
 					</TableBody>
@@ -50,11 +52,13 @@ function CustomTable(props) {
 }
 
 function CustomtableRow(props) {
+	//In this function there is state that is unique for each row and maintains the Coompletion feature of the Tasks
+	//On clicking a checkbox an update query is send depending upon what the status of the task is changed to
 	const navigate = useNavigate();
-
 	const [checkBox, setcheckBox] = useState(false);
 
 	useEffect(() => {
+		//Depending upon the status that we recieve, checkBox value is decided
 		props.row.status === "Incomplete" ? setcheckBox(false) : setcheckBox(true);
 	}, []);
 
@@ -75,6 +79,7 @@ function CustomtableRow(props) {
 				<Checkbox
 					checked={checkBox}
 					onChange={async (event) => {
+						//Query to update the status on the Backend everytime the user changes the state of checkBox
 						setcheckBox(!checkBox);
 						if (event.target.checked) {
 							await axios
@@ -141,6 +146,7 @@ function CustomtableRow(props) {
 					aria-label='upload picture'
 					component='label'
 					onClick={() => {
+						//Edit Button which takes to the edit screen, where all the value is retreived of that particular Task
 						console.log("id at page", props.row._id);
 						navigate("/editTask", { state: { id: props.row._id } });
 					}}>
@@ -152,6 +158,7 @@ function CustomtableRow(props) {
 					aria-label='Delete Task'
 					component='label'
 					onClick={() => {
+						//Passing the delete method that we recieved from the MainDiv
 						props.deleteRecord(props.row._id);
 					}}>
 					<DeleteIcon />

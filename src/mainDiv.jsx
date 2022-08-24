@@ -13,20 +13,24 @@ import "./App.css";
 import { URL } from "./utils";
 
 function MainDiv() {
+	//Navigate is used to move from one page to another on frontend
 	const navigate = useNavigate();
 	const [getAllProducts, setAllProducts] = useState([]);
 	const [filteredTask, setFilterTask] = useState([]);
 	const [priorityFilter, setpriorityFilter] = useState("");
 	const [dateFilter, setDateFilter] = useState("");
 
+	//Getting all the data when page is loaded and showing up the content based upon it
 	useEffect(() => {
 		getData();
 	}, []);
 
+	//Function to fetch the data from the server
 	const getData = async () => {
 		await axios
 			.get(URL + "getAllTask")
 			.then((res) => {
+				//Initialising the states
 				setAllProducts(res.data.docs);
 				setFilterTask(res.data.docs);
 				setpriorityFilter("");
@@ -37,11 +41,15 @@ function MainDiv() {
 			});
 	};
 
+	//Function to delete a record when Delete icon in a row is pressed
 	const deleteRecord = async (id) => {
 		await axios
 			.post(URL + "deleteTask", { id: id })
 			.then(async (res) => {
+				//Fetching all the updated data
 				getData();
+
+				//Showing a toast message to make UI more user-friendly
 				toast.error("Record Deleted", {
 					position: "top-center",
 					autoClose: 2000,
@@ -57,6 +65,7 @@ function MainDiv() {
 			});
 	};
 
+	//Function to conditionally render the paragraph, if there is no data.
 	function showText() {
 		if (priorityFilter === "" && dateFilter === "") {
 			return <p>Currently there is no task.</p>;
@@ -65,6 +74,7 @@ function MainDiv() {
 		}
 	}
 
+	//GetTasks renders the div or the Table based upon whether there are any Tasks or not.
 	function getTasks(length) {
 		if (length == 0) {
 			return (
@@ -80,12 +90,14 @@ function MainDiv() {
 		}
 	}
 
+	//Working of Date Filter
 	function sortByDate(data) {
 		if (dateFilter == "") {
 			return data;
 		} else {
 			return data.filter((element) => {
 				return (
+					//Using substring to compare just the dates
 					element.startDateTime.substring(0, 10) == dateFilter ||
 					element.endDateTime.substring(0, 10) == dateFilter
 				);
@@ -112,6 +124,9 @@ function MainDiv() {
 					Get All Tasks
 				</Button>
 			</div>
+			{
+				//Div that contains the Filters section, all the css is currently in the JSX components only except the cwss for App.jsx
+			}
 			<div style={{ paddingTop: "1vw", paddingBottom: "1vw" }}>
 				<p>Filters</p>
 				<div
@@ -161,6 +176,8 @@ function MainDiv() {
 			</div>
 			<Button
 				onClick={() => {
+					//Working of the filters
+					//First checking if there is any Priority filter or not then moving to the Date Filter
 					var data;
 					if (priorityFilter == "High") {
 						const localData = getAllProducts.filter(
@@ -181,11 +198,12 @@ function MainDiv() {
 						const localData = getAllProducts;
 						data = sortByDate(localData);
 					}
+					//Finally setting up the filteredData array with the data we have filtered
 					setFilterTask(data);
 				}}>
 				Apply Filters
 			</Button>
-			{getTasks(filteredTask.length)}{" "}
+			{getTasks(filteredTask.length)}
 			<ToastContainer
 				position='top-center'
 				autoClose={2000}
